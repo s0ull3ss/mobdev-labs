@@ -39,6 +39,7 @@ namespace lab3
                 Intermediate.fileName = null;
                 StartActivity(typeof(MainActivity));
             };
+
             buttonSave = FindViewById<Button>(Resource.Id.Save);
             buttonSave.Click += SaveClick;
         }

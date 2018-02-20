@@ -4,6 +4,7 @@ using Android.OS;
 using System.IO;
 using System.Collections.Generic;
 using System;
+using Android.Views;
 
 namespace lab3
 {
@@ -17,7 +18,6 @@ namespace lab3
         string path;
         private ListView fileList;
         private List<string> fileNames = new List<string>();
-        Button buttonEdit;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,9 +42,11 @@ namespace lab3
             fileList.Adapter = adapter;
             fileList.ItemClick += ListViewItemClick;
 
-
             Button buttonAdd = FindViewById<Button>(Resource.Id.Add);
-            buttonAdd.Click += ButtonAddClick; 
+            buttonAdd.Click += ButtonAddClick;
+
+            Button buttonDel = FindViewById<Button>(Resource.Id.Del);
+            buttonDel.Click += ButtonDelClick;
 
             Button buttonRename = FindViewById<Button>(Resource.Id.Rename);
             buttonRename.Click += ButtonRenameClick; 
@@ -56,6 +58,21 @@ namespace lab3
         private void ButtonAddClick(object sender, EventArgs e)
         {
             StartActivity(typeof(PageAdd));
+        }
+
+        private void ButtonDelClick(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(Intermediate.fileName))
+            {
+                Toast.MakeText(this, "You must select a file", ToastLength.Long).Show();
+            }
+            else
+            {
+                File.Delete(Intermediate.fileName);
+                Intermediate.fileName = null;
+                Finish();
+                StartActivity(typeof(MainActivity));
+            }
         }
 
         private void ButtonRenameClick(object sender, EventArgs e)

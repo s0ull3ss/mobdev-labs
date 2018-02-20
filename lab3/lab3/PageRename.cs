@@ -19,7 +19,6 @@ namespace lab3
         EditText editTextRename;
         Button buttonSave;
         Button buttonGoToMainPage;
-        string path;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,7 +27,8 @@ namespace lab3
             // Create your application here
             SetContentView(Resource.Layout.PageRename);
             editTextRename = FindViewById<EditText>(Resource.Id.editTextRename);
-            editTextRename.Text = Intermediate.fileName;
+
+            editTextRename.Text = Path.GetFileName(Intermediate.fileName);
 
             buttonGoToMainPage = FindViewById<Button>(Resource.Id.gotoMainPage);
             buttonGoToMainPage.Click += delegate
@@ -36,13 +36,13 @@ namespace lab3
                 Intermediate.fileName = null;
                 StartActivity(typeof(MainActivity));
             };
+
             buttonSave = FindViewById<Button>(Resource.Id.Save);
             buttonSave.Click += SaveClick;
         }
 
         private void SaveClick(object sender, EventArgs e)
         {
-            //Not realised
             string filename = FindViewById<EditText>(Resource.Id.editTextRename).Text;
             if (string.IsNullOrEmpty(filename) || string.IsNullOrWhiteSpace(filename))
             {
@@ -51,9 +51,10 @@ namespace lab3
             }
             else
             {
-                path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                File.WriteAllText(Path.Combine(path, filename), filename);
+                string newFilename = Path.Combine(Path.GetDirectoryName(Intermediate.fileName),filename);
+                File.Move(Intermediate.fileName, newFilename);
                 Toast.MakeText(this, "The file is saved", ToastLength.Long).Show();
+                Intermediate.fileName = newFilename; 
             }
         }
     }
