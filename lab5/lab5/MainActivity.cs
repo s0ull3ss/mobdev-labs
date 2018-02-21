@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System;
+using System.Linq;
 
 namespace lab5
 {
@@ -15,7 +16,9 @@ namespace lab5
     public class MainActivity : Activity
     {
         Button httpRequest;
-        TextView responseView;
+        ListView drugInfoListView;
+        List<string> drugInfo = new List<string>();
+        ArrayAdapter<string> adapter;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -24,9 +27,10 @@ namespace lab5
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            responseView = FindViewById<TextView>(Resource.Id.textView1);
             httpRequest = FindViewById<Button>(Resource.Id.button1);
             httpRequest.Click += HttpRequestClick;
+
+            drugInfoListView = FindViewById<ListView>(Resource.Id.listViewInfo);
         }
 
         private void HttpRequestClick(object sender, EventArgs e)
@@ -36,22 +40,36 @@ namespace lab5
             request.ContentType = "application/json";
             request.Method = "GET";
             HttpWebResponse response;
-            using (response = request.GetResponse() as HttpWebResponse)
+            try
             {
-                if(response.StatusCode != HttpStatusCode.OK)
+                using (response = request.GetResponse() as HttpWebResponse)
                 {
-                    responseView.Text = string.Format("Error. Status code: {0}", response.StatusCode);
-                }
-                else
-                {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        var content = reader.ReadToEnd();
-                        responseView.Text = Regex.Match(content, "<displayName>(.*?)</displayName>").Groups[1].Value.ToString();
+                        string err = string.Format("Error:\n{0}", response.StatusCode);
+                        Toast.MakeText(this, err, ToastLength.Long).Show();
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var content = reader.ReadToEnd();
+                            drugInfo.Clear();
+                            drugInfo.Add("Name: " + Regex.Match(content, "<displayName>(.*?)</displayName>").Groups[1].Value.ToString());
+                            drugInfo.Add("Synonym: " + Regex.Match(content, "<synonym>(.*?)</synonym>").Groups[1].Value.ToString());
+                            drugInfo.Add("Route: " + Regex.Match(content, "<route>(.*?)</route>").Groups[1].Value.ToString());
+                            drugInfo.Add("Strength: " + Regex.Match(content, "<strength>(.*?)</strength>").Groups[1].Value.ToString());
+                            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, drugInfo);
+                            drugInfoListView.Adapter = adapter;
+                        }
                     }
                 }
             }
-            //throw new NotImplementedException();
+            catch(Exception exc)
+            {
+                string err = string.Format("Error:\n{0}", exc.ToString());
+                Toast.MakeText(this, err, ToastLength.Long).Show();
+            }
         }
     }
 }

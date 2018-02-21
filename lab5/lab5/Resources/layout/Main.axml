@@ -3,14 +3,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:text="Button"
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="400.dp"
+        android:layout_width="match_parent"
+        android:layout_height="500.dp"
+        android:id="@+id/listViewInfo"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/darker_gray" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
-    <TextView
-        android:text="Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
+        android:id="@+id/linearLayout1">
+        <Button
+            android:text="Get_Info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1" />
+    </LinearLayout>
 </LinearLayout>
