@@ -31,6 +31,11 @@ public class KolobokMoving : MonoBehaviour {
 		if(VC.sqrMagnitude > 1) VC.Normalize();
 		body.AddForce (VC * 3);
 		#endif
+	}
 
+	void OnTriggerEnter(Collider col){
+		if (col.gameObject.CompareTag ("Candy")) {
+			Destroy (col.gameObject);
+		}
 	}
 }
