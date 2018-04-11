@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("lab2.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("lab8b.Resource", IsApplication=true)]
 
-namespace lab2
+namespace lab8b
 {
 	
 	
@@ -44,20 +44,29 @@ namespace lab2
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040004
-			public const int Clear = 2130968580;
+			// aapt resource value: 0x7f040007
+			public const int Clear = 2130968583;
 			
-			// aapt resource value: 0x7f040002
-			public const int Load = 2130968578;
+			// aapt resource value: 0x7f040005
+			public const int Load = 2130968581;
 			
-			// aapt resource value: 0x7f040003
-			public const int Save = 2130968579;
-			
-			// aapt resource value: 0x7f040000
-			public const int editText = 2130968576;
+			// aapt resource value: 0x7f040006
+			public const int Save = 2130968582;
 			
 			// aapt resource value: 0x7f040001
-			public const int linearlayout1 = 2130968577;
+			public const int editText = 2130968577;
+			
+			// aapt resource value: 0x7f040004
+			public const int linearlayout1 = 2130968580;
+			
+			// aapt resource value: 0x7f040002
+			public const int textView1 = 2130968578;
+			
+			// aapt resource value: 0x7f040000
+			public const int textView2 = 2130968576;
+			
+			// aapt resource value: 0x7f040003
+			public const int textviewEncrypted = 2130968579;
 			
 			static Id()
 			{
